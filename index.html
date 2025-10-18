@@ -59,7 +59,6 @@
       touch-action:pan-y;                 /* allow vertical pan only by default */
       position:relative;
     }
-    /* Single fixed decorative layer, behind everything */
     body::before{
       content:"";
       position:fixed;
@@ -119,7 +118,11 @@
     .nav-links::-webkit-scrollbar{display:none}
     .nav-links a{padding:10px 12px;border-radius:10px;color:var(--muted);text-decoration:none;border:1px solid transparent;white-space:nowrap}
     .nav-links a:hover{border-color:rgba(255,255,255,.14);color:var(--ink);background:rgba(255,255,255,.04)}
-    @media (max-width: 640px){ .nav-links .chip{display:none} }
+    /* MOBILE-ONLY NAV: show LinkedIn chip only */
+    @media (max-width: 640px){
+      .nav-links a:not(.chip){display:none}
+      .nav-links .chip{display:inline-flex}
+    }
 
     /* --- Hero --- */
     header.hero{
@@ -172,7 +175,6 @@
     .services-slider::-webkit-scrollbar{height:8px}
     .services-slider::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);border-radius:999px}
     .services-slider .slide{flex:0 0 clamp(260px, 32%, 380px);scroll-snap-align:start}
-    /* keep nav buttons inside the container (no negative inset) */
     .services-nav{
       position:absolute;top:-50px;right:0;left:auto;display:flex;gap:10px;justify-content:flex-end;pointer-events:none
     }
@@ -457,66 +459,64 @@
   <section id="work" class="section">
     <div class="container">
       <h2>Recent Work <span class="muted" style="font-size:18px">(Projects & Courses)</span></h2>
-      <div class="work-grid">
-        <!-- Project A: PPD Technology site -->
-        <article class="work-card large tilt">
-          <div class="work-media">
-            <img src="https://ppdtechnology.com/images/Screenshot%202025-10-18%20at%202.53.03%E2%80%AFPM.png" alt="PPD Technology website and analytics results">
+    <div class="work-grid">
+      <!-- Project A -->
+      <article class="work-card large tilt">
+        <div class="work-media">
+          <img src="https://ppdtechnology.com/images/Screenshot%202025-10-18%20at%202.53.03%E2%80%AFPM.png" alt="PPD Technology website and analytics results">
+        </div>
+        <div class="work-body">
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+            <a class="pill" href="https://ppdtechnology.com/" target="_blank" rel="noopener">
+              <i class="fa-solid fa-link"></i> ppdtechnology.com
+            </a>
+            <span class="pill"><i class="fa-solid fa-chart-line"></i> Traffic ↑</span>
+            <span class="pill"><i class="fa-solid fa-user-check"></i> Retention ↑</span>
+            <span class="pill"><i class="fa-solid fa-file-circle-check"></i> Forms +4000%</span>
           </div>
-          <div class="work-body">
-            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px">
-              <a class="pill" href="https://ppdtechnology.com/" target="_blank" rel="noopener">
-                <i class="fa-solid fa-link"></i> ppdtechnology.com
-              </a>
-              <span class="pill"><i class="fa-solid fa-chart-line"></i> Traffic ↑</span>
-              <span class="pill"><i class="fa-solid fa-user-check"></i> Retention ↑</span>
-              <span class="pill"><i class="fa-solid fa-file-circle-check"></i> Forms +4000%</span>
-            </div>
-            <h3>Project A — PPD Technology Website Redesign & Analytics</h3>
-            <p class="muted">
-              Designed and built a high-performance marketing site for
-              <a href="https://ppdtechnology.com/" target="_blank" rel="noopener" style="color:var(--ink);text-decoration:underline">PPD Technology</a>.
-              Post-launch results: significant traffic growth, higher site retention, and a <strong>4000% increase</strong> in form applications.
-            </p>
-          </div>
-        </article>
+          <h3>Project A — PPD Technology Website Redesign & Analytics</h3>
+          <p class="muted">
+            Designed and built a high-performance marketing site for
+            <a href="https://ppdtechnology.com/" target="_blank" rel="noopener" style="color:var(--ink);text-decoration:underline">PPD Technology</a>.
+            Post-launch results: significant traffic growth, higher site retention, and a <strong>4000% increase</strong> in form applications.
+          </p>
+        </div>
+      </article>
 
-        <!-- Project B -->
-        <article class="work-card tilt">
-          <div class="work-media">
-            <img src="https://ppdtechnology.com/images/advanced%20data%20analytics.png" alt="Google Advanced Data Analytics certificate visual">
+      <!-- Project B -->
+      <article class="work-card tilt">
+        <div class="work-media">
+          <img src="https://ppdtechnology.com/images/advanced%20data%20analytics.png" alt="Google Advanced Data Analytics certificate visual">
+        </div>
+        <div class="work-body">
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+            <a class="pill" href="https://www.coursera.org/account/accomplishments/specialization/certificate/62ZEPASDDEN6" target="_blank" rel="noopener"><i class="fa-solid fa-certificate"></i> Certificate</a>
+            <a class="pill" href="https://drive.google.com/drive/folders/1Je8iJqjJ9e3utQnR4ta-O8_EJQjT-Mas" target="_blank" rel="noopener"><i class="fa-solid fa-folder-open"></i> Capstone</a>
+            <a class="pill" href="https://www.coursera.org/professional-certificates/google-advanced-data-analytics" target="_blank" rel="noopener"><i class="fa-solid fa-circle-info"></i> Program Info</a>
           </div>
-          <div class="work-body">
-            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px">
-              <a class="pill" href="https://www.coursera.org/account/accomplishments/specialization/certificate/62ZEPASDDEN6" target="_blank" rel="noopener"><i class="fa-solid fa-certificate"></i> Certificate</a>
-              <a class="pill" href="https://drive.google.com/drive/folders/1Je8iJqjJ9e3utQnR4ta-O8_EJQjT-Mas" target="_blank" rel="noopener"><i class="fa-solid fa-folder-open"></i> Capstone</a>
-              <a class="pill" href="https://www.coursera.org/professional-certificates/google-advanced-data-analytics" target="_blank" rel="noopener"><i class="fa-solid fa-circle-info"></i> Program Info</a>
-            </div>
-            <h3>Project B — Google Advanced Data Analytics (Completed)</h3>
-            <p class="muted">
-              Completed the Advanced Data Analytics specialization covering statistics, predictive modeling, experimental design, and stakeholder communication.
-            </p>
-          </div>
-        </article>
+          <h3>Project B — Google Advanced Data Analytics (Completed)</h3>
+          <p class="muted">
+            Completed the Advanced Data Analytics specialization covering statistics, predictive modeling, experimental design, and stakeholder communication.
+          </p>
+        </div>
+      </article>
 
-        <!-- Project C -->
-        <article class="work-card tilt">
-          <div class="work-media">
-            <img src="https://ppdtechnology.com/images/Data%20analytics%20coursera.png" alt="Google Data Analytics certificate visual">
+      <!-- Project C -->
+      <article class="work-card tilt">
+        <div class="work-media">
+          <img src="https://ppdtechnology.com/images/Data%20analytics%20coursera.png" alt="Google Data Analytics certificate visual">
+        </div>
+        <div class="work-body">
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+            <a class="pill" href="https://www.coursera.org/account/accomplishments/specialization/certificate/FLAF74DIXQZ9" target="_blank" rel="noopener"><i class="fa-solid fa-certificate"></i> Certificate</a>
+            <a class="pill" href="https://www.youtube.com/watch?v=rYMw9HIns1E" target="_blank" rel="noopener"><i class="fa-brands fa-youtube"></i> Capstone Video</a>
+            <a class="pill" href="https://www.coursera.org/professional-certificates/google-data-analytics" target="_blank" rel="noopener"><i class="fa-solid fa-circle-info"></i> Program Info</a>
           </div>
-          <div class="work-body">
-            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px">
-              <a class="pill" href="https://www.coursera.org/account/accomplishments/specialization/certificate/FLAF74DIXQZ9" target="_blank" rel="noopener"><i class="fa-solid fa-certificate"></i> Certificate</a>
-              <a class="pill" href="https://www.youtube.com/watch?v=rYMw9HIns1E" target="_blank" rel="noopener"><i class="fa-brands fa-youtube"></i> Capstone Video</a>
-              <a class="pill" href="https://www.coursera.org/professional-certificates/google-data-analytics" target="_blank" rel="noopener"><i class="fa-solid fa-circle-info"></i> Program Info</a>
-            </div>
-            <h3>Project C — Google Data Analytics (Completed)</h3>
-            <p class="muted">
-              Completed the end-to-end Google Data Analytics specialization (ask → prepare → process → analyze → share).
-            </p>
-          </div>
-        </article>
-      </div>
+          <h3>Project C — Google Data Analytics (Completed)</h3>
+          <p class="muted">Completed the end-to-end Google Data Analytics specialization (ask → prepare → process → analyze → share).</p>
+        </div>
+      </article>
+    </div>
     </div>
   </section>
 
@@ -584,7 +584,6 @@
           <textarea id="message" name="message" placeholder="Tell me about your goals…" required></textarea>
         </div>
 
-        <!-- Optional: honeypot field for spam reduction -->
         <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
 
         <button class="btn btn-primary" type="submit"><i class="fa-solid fa-paper-plane"></i> Send</button>
@@ -635,9 +634,9 @@
     document.querySelectorAll('.tilt').forEach(card => {
       card.addEventListener('mousemove', (e) => {
         const r = card.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width * 2 - 1;
-        const y = (e.clientY - r.top) / r.height * 2 - 1;
-        card.style.transform = `translateY(-6px) rotateX(${ -y * 3}deg) rotateY(${ x * 3}deg)`;
+        thex = (e.clientX - r.left) / r.width * 2 - 1;
+        they = (e.clientY - r.top) / r.height * 2 - 1;
+        card.style.transform = `translateY(-6px) rotateX(${ -they * 3}deg) rotateY(${ thex * 3}deg)`;
         card.style.setProperty('--x', `${e.clientX - r.left}px`);
         card.style.setProperty('--y', `${e.clientY - r.top}px`);
       });
