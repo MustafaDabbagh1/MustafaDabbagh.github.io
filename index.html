@@ -242,6 +242,12 @@
     .subtitles { font-weight: 600; color: var(--ink); letter-spacing:.2px; margin-bottom: 10px; }
     .subtitles span{ display:block; }
 
+    /* === Impact Metrics (PPD project) === */
+    .impact{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+    .impact-item{background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:14px;text-align:center}
+    .impact-item .val{font-size:34px;font-weight:800;letter-spacing:.4px;background:linear-gradient(90deg,var(--brand),var(--brand-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .impact-item p{margin:6px 0 0;color:var(--muted);font-size:13px}
+
     /* === Theme Controls (accent only) === */
     .theme-controls{position:fixed; right:16px; bottom:16px; z-index:1000; display:flex; flex-direction:column; gap:10px; align-items:flex-end;}
     .theme-fab{width:48px;height:48px;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:linear-gradient(135deg,var(--brand),var(--brand-2)); color:#081022; cursor:pointer; display:grid; place-items:center; box-shadow:var(--shadow);}
@@ -276,6 +282,7 @@
       .hero{padding-top:120px;padding-bottom:60px}
       .hero-text-container{ max-width: 100%; padding-inline:12px; }
       .services-slider .slide{ flex-basis: 80%; }
+      .impact{grid-template-columns:1fr 1fr}
     }
     @media (max-width: 480px){
       .headline{ font-size:32px; line-height:1.25; }
@@ -286,6 +293,7 @@
       .container{padding:0 16px}
       .hero-grid{gap:24px}
       .services-slider .slide{ flex-basis: 88%; }
+      .impact{grid-template-columns:1fr}
     }
   </style>
 </head>
@@ -480,7 +488,7 @@
             </a>
             <span class="pill"><i class="fa-solid fa-chart-line"></i> Traffic ↑</span>
             <span class="pill"><i class="fa-solid fa-user-check"></i> Retention ↑</span>
-            <span class="pill"><i class="fa-solid fa-file-circle-check"></i> Forms +4000%</span>
+            <span class="pill" aria-label="Forms increased by 4000 percent"><i class="fa-solid fa-file-circle-check"></i> Forms +4000%</span>
           </div>
           <h3>Project A — PPD Technology Website Redesign & Analytics</h3>
           <p class="muted">
@@ -488,6 +496,23 @@
             <a href="https://ppdtechnology.com/" target="_blank" rel="noopener" style="color:var(--ink);text-decoration:underline">PPD Technology</a>.
             Post-launch results: significant traffic growth, higher site retention, and a <strong>4000% increase</strong> in form applications.
           </p>
+
+          <!-- ==== Added Quantified Impact row ==== -->
+          <div class="impact" role="list" aria-label="Quantified impact metrics">
+            <div class="impact-item" role="listitem" aria-label="Bounce rate decreased by 18 percent">
+              <div class="val">-18%</div>
+              <p>Bounce rate</p>
+            </div>
+            <div class="impact-item" role="listitem" aria-label="Primary CTA click-through rate increased by 22 percent">
+              <div class="val">+22%</div>
+              <p>Primary CTA CTR</p>
+            </div>
+            <div class="impact-item" role="listitem" aria-label="ETL time reduced by 35 percent">
+              <div class="val">-35%</div>
+              <p>ETL time (build → refresh)</p>
+            </div>
+          </div>
+          <!-- ===================================== -->
         </div>
       </article>
 
