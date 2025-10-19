@@ -516,6 +516,35 @@
         </div>
       </article>
 
+      <!-- NEW Project: E-commerce A/B Test -->
+      <article class="work-card tilt">
+        <div class="work-media">
+          <img src="https://ppdtechnology.com/images/a-b-testing.jpg" alt="E-commerce A/B Test dashboard preview">
+        </div>
+        <div class="work-body">
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+            <span class="pill"><i class="fa-solid fa-flask"></i> A/B Testing</span>
+            <span class="pill"><i class="fa-solid fa-database"></i> SQL</span>
+            <span class="pill"><i class="fa-brands fa-python"></i> pandas + statsmodels</span>
+          </div>
+          <h3>E-commerce A/B Test — New Checkout</h3>
+          <p class="muted">
+            Designed and ran a checkout experiment on synthetic-but-realistic data. The test variant showed a
+            <strong>−18.23% absolute conversion drop</strong> vs control (z=2.37, p=0.0089). Recommendation:
+            pause rollout and investigate device/OS splits, traffic mix, and implementation bugs; re-run with tighter instrumentation.
+          </p>
+
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+            <a class="btn btn-primary" href="https://github.com/MustafaDabbagh1/ecommerce-ab-test" target="_blank" rel="noopener">
+              <i class="fa-brands fa-github"></i> View Code
+            </a>
+            <a class="btn btn-ghost" href="https://nbviewer.org/github/MustafaDabbagh1/ecommerce-ab-test/blob/main/analysis.ipynb" target="_blank" rel="noopener">
+              <i class="fa-solid fa-book-open"></i> Open Notebook
+            </a>
+          </div>
+        </div>
+      </article>
+
       <!-- Project B -->
       <article class="work-card tilt">
         <div class="work-media">
@@ -781,7 +810,7 @@
         if(!isDown) return;
         e.preventDefault();
         const x = e.pageX - slider.offsetLeft;
-        slider.scrollLeft = scrollLeft - (x - startX);
+        slider.scrollLeft = scrollLeft - (x - startX) ;
       });
 
       // keyboard accessibility
