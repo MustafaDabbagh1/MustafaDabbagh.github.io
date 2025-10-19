@@ -946,3 +946,158 @@
   </script>
 </body>
 </html>
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ===== Accent Controls (persisted) =====
+    (function(){
+      const root = document.documentElement;
+      const openBtn = document.getElementById('openTheme');
+      const panel = document.getElementById('themePanel');
+      const closeBtn = document.getElementById('closeTheme');
+      const resetBtn = document.getElementById('resetTheme');
+      const picker = document.getElementById('accentPicker');
+      const hueRange = document.getElementById('hueRange');
+
+      const store = {
+        get(k, d){ try{ const v = localStorage.getItem(k); return v ?? d; }catch{ return d; } },
+        set(k, v){ try{ localStorage.setItem(k, v); }catch{} }
+      };
+
+      function hexToHsl(hex){
+        hex = hex.replace('#','');
+        if(hex.length===3){ hex = hex.split('').map(c=>c+c).join(''); }
+        const r = parseInt(hex.substr(0,2),16)/255;
+        const g = parseInt(hex.substr(2,2),16)/255;
+        const b = parseInt(hex.substr(4,2),16)/255;
+        const max=Math.max(r,g,b), min=Math.min(r,g,b);
+        let h, s, l=(max+min)/2;
+        if(max===min){ h=s=0; }
+        else{
+          const d=max-min;
+          s = l>0.5 ? d/(2-max-min) : d/(max+min);
+          switch(max){
+            case r: h=(g-b)/d+(g<b?6:0);break;
+            case g: h=(b-r)/d+2;break;
+            case b: h=(r-g)/d+4;break;
+          }
+          h*=60;
+        }
+        return {h, s: s*100, l: l*100};
+      }
+      const hsl = (h,s,l)=>`hsl(${Math.round(h)} ${Math.round(s)}% ${Math.round(l)}%)`;
+
+      function applyAccent(baseHex, hue){
+        const {h,s,l} = hexToHsl(baseHex);
+        const brand = hsl(h, Math.min(95, s||70), Math.max(40, Math.min(70, l||60)));
+        const altHue = (hue || h + 36) % 360;
+        const brand2 = hsl(altHue, 90, 70);
+        root.style.setProperty('--brand', brand);
+        root.style.setProperty('--brand-2', brand2);
+        store.set('md-brand', brand);
+        store.set('md-brand2', brand2);
+        store.set('md-picker', baseHex);
+        store.set('md-hue', String(hue ?? altHue));
+      }
+
+      // Load persisted
+      const savedBrand = store.get('md-brand', null);
+      const savedBrand2 = store.get('md-brand2', null);
+      const savedPicker = store.get('md-picker', '#5b8cff');
+      const savedHue = +store.get('md-hue', '200');
+
+      if(savedBrand && savedBrand2){
+        root.style.setProperty('--brand', savedBrand);
+        root.style.setProperty('--brand-2', savedBrand2);
+      }
+      document.getElementById('accentPicker').value = savedPicker;
+      document.getElementById('hueRange').value = savedHue;
+
+      // Events
+      openBtn.addEventListener('click', ()=> panel.classList.toggle('open'));
+      closeBtn.addEventListener('click', ()=> panel.classList.remove('open'));
+      picker.addEventListener('input', ()=> applyAccent(picker.value, +hueRange.value));
+      hueRange.addEventListener('input', ()=> applyAccent(picker.value, +hueRange.value));
+      resetBtn.addEventListener('click', ()=>{
+        picker.value = '#5b8cff';
+        hueRange.value = 200;
+        applyAccent('#5b8cff', 200);
+      });
+
+      // Initialize once
+      applyAccent(savedPicker, savedHue);
+    })();
+
+    // ===== Constellation / Particle Background =====
+    (function(){
+      const canvas = document.getElementById('constellation');
+      if(!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const mqReduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let particles = [], rafId = null, mouse = {x: null, y: null};
+
+      function resize(){
+        const rect = canvas.getBoundingClientRect();
+        const dpr = devicePixelRatio || 1;
+        canvas.width = Math.floor(rect.width * dpr);
+        canvas.height = Math.floor(rect.height * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const count = Math.min(120, Math.round((rect.width * rect.height) / 15000));
+        particles = Array.from({length: count}, ()=>({
+          x: Math.random()*rect.width,
+          y: Math.random()*rect.height,
+          vx:(Math.random()-0.5)*0.4,
+          vy:(Math.random()-0.5)*0.4,
+          r: Math.random()*1.3 + 0.6
+        }));
+      }
+
+      function draw(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        const connectDist = 120;
+        ctx.fillStyle = 'rgba(255,255,255,0.8)';
+        const rect = canvas.getBoundingClientRect();
+        for(const p of particles){
+          p.x += p.vx; p.y += p.vy;
+          if(mouse.x !== null){
+            const dx = p.x - mouse.x, dy = p.y - mouse.y, d2 = dx*dx + dy*dy;
+            if(d2 < 1600){ const inv = 0.003/Math.sqrt(d2||1); p.vx += dx*inv; p.vy += dy*inv; }
+          }
+          if(p.x < 0 || p.x > rect.width) p.vx *= -1;
+          if(p.y < 0 || p.y > rect.height) p.vy *= -1;
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();
+        }
+        for(let i=0;i<particles.length;i++){
+          for(let j=i+1;j<particles.length;j++){
+            const a = particles[i], b = particles[j];
+            const dx = a.x - b.x, dy = a.y - b.y, d = Math.hypot(dx,dy);
+            if(d < connectDist){
+              ctx.strokeStyle = `rgba(200, 230, 255, ${1 - d/connectDist})`;
+              ctx.lineWidth = 1;
+              ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+            }
+          }
+        }
+        rafId = requestAnimationFrame(draw);
+      }
+
+      function start(){ if(rafId) return; resize(); rafId = requestAnimationFrame(draw); }
+      function stop(){ if(rafId){ cancelAnimationFrame(rafId); rafId=null; } ctx.clearRect(0,0,canvas.width,canvas.height); }
+
+      const hero = document.querySelector('header.hero');
+      const ro = new ResizeObserver(()=> resize());
+      ro.observe(hero);
+
+      hero.addEventListener('mousemove', (e)=>{
+        const rect = hero.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left; mouse.y = e.clientY - rect.top;
+      });
+      hero.addEventListener('mouseleave', ()=> { mouse.x = mouse.y = null; });
+
+      function handleMotionPreference(){ if(mqReduce.matches){ stop(); canvas.style.display='none'; } else { canvas.style.display='block'; start(); } }
+      mqReduce.addEventListener?.('change', handleMotionPreference);
+      handleMotionPreference();
+    })();
+  </script>
+</body>
+</html>
